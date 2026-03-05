@@ -6,7 +6,7 @@
 
 ---
 
-**Project:** OREND
+**Project:** ORENDA
 **Generated:** 2026-03-05 12:44:20
 **Category:** Luxury/Premium Brand
 
