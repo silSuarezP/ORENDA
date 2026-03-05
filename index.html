@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OREND | Comunicación y Estrategia</title>
+    <meta name="description"
+        content="OREND. Ayudamos a organizaciones a encontrar su voz, construir su relato y comunicar con propósito.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#18181B', // Zinc 900
+                        secondary: '#3F3F46', // Zinc 700
+                        accent: '#EC4899', // Pink 500
+                        background: '#FAFAFA', // Zinc 50
+                        surface: '#FFFFFF',
+                        text: '#09090B',
+                        muted: '#71717A',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'hover': '0 10px 30px -5px rgba(0, 0, 0, 0.08)',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'blur-in': 'blurIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        blurIn: {
+                            '0%': { opacity: '0', filter: 'blur(10px)' },
+                            '100%': { opacity: '1', filter: 'blur(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Utilities */
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.text');
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .glass-nav {
+            background: rgba(250, 250, 250, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Elements to animate on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .delay-300 {
+            transition-delay: 300ms;
+        }
+
+        /* Liquid Glass Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: theme('boxShadow.hover');
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Abstract Blob Backgrounds */
+        .blob-bg {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans overflow-x-hidden selection:bg-accent selection:text-white relative">
+
+    <!-- Decorative Blobs -->
+    <div class="blob-bg bg-accent/10 w-[500px] h-[500px] top-[-100px] left-[-100px]"></div>
+    <div class="blob-bg bg-primary/5 w-[600px] h-[600px] top-[30%] right-[-200px]" style="animation-delay: -5s;"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="font-serif text-2xl font-semibold tracking-wide text-primary">OREND</a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#about"
+                    class="text-sm font-medium text-secondary hover:text-primary transition-colors">Filosofía</a>
+                <a href="#services"
+                    class="text-sm font-medium text-secondary hover:text-primary transition-colors">Servicios</a>
+                <a href="#methodology"
+                    class="text-sm font-medium text-secondary hover:text-primary transition-colors">Metodología</a>
+                <a href="#contact"
+                    class="text-sm font-medium text-secondary hover:text-primary transition-colors">Contacto</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn"
+                class="md:hidden text-primary p-2 focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-md"
+                aria-label="Abrir menú">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu"
+            class="hidden md:hidden absolute top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-primary/5 shadow-soft">
+            <div class="flex flex-col px-6 py-4 space-y-4">
+                <a href="#about"
+                    class="mobile-link text-base font-medium text-secondary hover:text-primary transition-colors">Filosofía</a>
+                <a href="#services"
+                    class="mobile-link text-base font-medium text-secondary hover:text-primary transition-colors">Servicios</a>
+                <a href="#methodology"
+                    class="mobile-link text-base font-medium text-secondary hover:text-primary transition-colors">Metodología</a>
+                <a href="#contact"
+                    class="mobile-link text-base font-medium text-secondary hover:text-primary transition-colors">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 w-full relative z-10 flex flex-col items-center text-center">
+            <span class="text-accent font-medium tracking-widest text-sm uppercase mb-6 animate-blur-in">Consultoría
+                Estratégica</span>
+
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-medium text-primary leading-tight mb-8 max-w-4xl tracking-tight animate-fade-in-up"
+                style="animation-delay: 100ms;">
+                Comunicación<br>
+                <span class="text-secondary italic font-light">que transforma.</span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-secondary max-w-2xl font-light leading-relaxed mb-12 animate-fade-in-up"
+                style="animation-delay: 200ms;">
+                Ayudamos a organizaciones a encontrar su voz, construir su relato y comunicar con propósito para forjar
+                el futuro que imaginan.
+            </p>
+
+            <a href="#contact"
+                class="inline-flex items-center justify-center bg-primary text-white px-8 py-4 rounded-full text-sm font-semibold tracking-wide hover:bg-primary/90 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 animate-fade-in-up"
+                style="animation-delay: 300ms;">
+                Hablemos
+                <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ABOUT OREND -->
+    <section id="about" class="py-24 md:py-32 relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center reveal">
+                <h2 class="font-serif text-3xl md:text-5xl font-medium text-primary mb-10">La energía interior</h2>
+            </div>
+
+            <div
+                class="prose prose-lg md:prose-xl text-secondary font-light leading-relaxed text-center reveal delay-100 mx-auto">
+                <p class="mb-6">
+                    <strong>Orend</strong> es la energía mística que habita en cada uno de nosotros. Es la fuerza
+                    invisible pero palpable que nos otorga el poder de transformar el mundo, reescribir nuestro destino
+                    y forjar la realidad que soñamos.
+                </p>
+                <p>
+                    Creemos que las marcas y las organizaciones poseen su propio "Orend". Nuestra misión es canalizar
+                    esa energía a través de narrativas auténticas, estrategias claras y una comunicación humana que
+                    conecte profundamente.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="py-24 md:py-32 bg-surface/50 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-16 md:mb-24 reveal">
+                <span class="text-accent font-medium tracking-widest text-sm uppercase mb-4 block">Nuestra
+                    Experiencia</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-medium text-primary">Servicios</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="glass-card rounded-2xl p-8 reveal">
+                    <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-6 text-accent">
+                        <i data-lucide="compass" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-primary mb-4">Estrategia de comunicación</h3>
+                    <p class="text-muted font-light leading-relaxed">
+                        Diseñamos hojas de ruta claras para alinear los mensajes de la organización con sus objetivos de
+                        negocio a largo plazo.
+                    </p>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="glass-card rounded-2xl p-8 reveal delay-100">
+                    <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-6 text-accent">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-primary mb-4">Branding y posicionamiento</h3>
+                    <p class="text-muted font-light leading-relaxed">
+                        Construimos identidades sólidas y memorables que ocupan un lugar distintivo en la mente del
+                        consumidor.
+                    </p>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="glass-card rounded-2xl p-8 reveal delay-200">
+                    <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-6 text-accent">
+                        <i data-lucide="pen-tool" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-primary mb-4">Narrativa de marca</h3>
+                    <p class="text-muted font-light leading-relaxed">
+                        Damos forma a historias auténticas que conectan emocionalmente y transmiten el propósito real de
+                        la organización.
+                    </p>
+                </div>
+
+                <!-- Service Card 4 -->
+                <div class="glass-card rounded-2xl p-8 reveal">
+                    <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-6 text-accent">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-primary mb-4">Comunicación corporativa</h3>
+                    <p class="text-muted font-light leading-relaxed">
+                        Gestionamos la comunicación institucional para construir transparencia y confianza con todos los
+                        stakeholders.
+                    </p>
+                </div>
+
+                <!-- Service Card 5 -->
+                <div class="glass-card rounded-2xl p-8 reveal delay-100">
+                    <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-6 text-accent">
+                        <i data-lucide="radio" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-primary mb-4">Relaciones públicas</h3>
+                    <p class="text-muted font-light leading-relaxed">
+                        Creamos y mantenemos vínculos estratégicos con medios de comunicación e influenciadores clave
+                        del sector.
+                    </p>
+                </div>
+
+                <!-- Service Card 6 -->
+                <div class="glass-card rounded-2xl p-8 reveal delay-200">
+                    <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-6 text-accent">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-primary mb-4">Gestión de reputación</h3>
+                    <p class="text-muted font-light leading-relaxed">
+                        Protegemos y fortalecemos la imagen pública, anticipando riesgos y gestionando percepciones
+                        críticas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- METHODOLOGY -->
+    <section id="methodology" class="py-24 md:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-16 item-center justify-between">
+
+                <div class="md:w-1/3 reveal">
+                    <span class="text-accent font-medium tracking-widest text-sm uppercase mb-4 block">Proceso</span>
+                    <h2 class="font-serif text-4xl md:text-5xl font-medium text-primary mb-6">Metodología Orend</h2>
+                    <p class="text-secondary font-light text-lg">
+                        Un enfoque analítico y humano diseñado para extraer la esencia y proyectarla con claridad.
+                    </p>
+                </div>
+
+                <div class="md:w-2/3">
+                    <div
+                        class="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-primary/10 before:to-transparent">
+
+                        <!-- Step 1 -->
+                        <div
+                            class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group reveal">
+                            <div
+                                class="flex items-center justify-center w-10 h-10 rounded-full bg-surface border border-primary/10 shadow-sm shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 text-accent font-serif font-medium">
+                                1</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 glass-card rounded-2xl shadow-sm">
+                                <h3 class="font-serif text-2xl font-medium text-primary mb-2">Escuchar</h3>
+                                <p class="text-muted font-light">Sumergirse en la cultura de la organización, entender a
+                                    sus líderes, sus audiencias y el entorno en el que operan.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div
+                            class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group reveal delay-100">
+                            <div
+                                class="flex items-center justify-center w-10 h-10 rounded-full bg-surface border border-primary/10 shadow-sm shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 text-accent font-serif font-medium">
+                                2</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 glass-card rounded-2xl shadow-sm">
+                                <h3 class="font-serif text-2xl font-medium text-primary mb-2">Analizar</h3>
+                                <p class="text-muted font-light">Sintetizar la información para encontrar los insights
+                                    de valor, las debilidades perceptuales y las grandes oportunidades discursivas.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div
+                            class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group reveal delay-200">
+                            <div
+                                class="flex items-center justify-center w-10 h-10 rounded-full bg-surface border border-primary/10 shadow-sm shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 text-accent font-serif font-medium">
+                                3</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 glass-card rounded-2xl shadow-sm">
+                                <h3 class="font-serif text-2xl font-medium text-primary mb-2">Definir</h3>
+                                <p class="text-muted font-light">Estructurar la estrategia, el tono de voz y los
+                                    mensajes clave que guiarán todas las expresiones futuras de la marca.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div
+                            class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group reveal delay-300">
+                            <div
+                                class="flex items-center justify-center w-10 h-10 rounded-full bg-surface border border-primary/10 shadow-sm shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 text-accent font-serif font-medium">
+                                4</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 glass-card rounded-2xl shadow-sm">
+                                <h3 class="font-serif text-2xl font-medium text-primary mb-2">Comunicar</h3>
+                                <p class="text-muted font-light">Ejecutar acciones precisas y coherentes que trasladan
+                                    la narrativa a las audiencias correctas, generando impacto y transformación.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CLIENT TRUST -->
+    <section class="py-24 bg-surface/50 border-y border-primary/5">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+
+            <div class="mb-16 reveal">
+                <span
+                    class="text-muted text-sm uppercase tracking-widest text-center px-4 font-medium mb-10 block">Instituciones
+                    que confían en nosotros</span>
+                <div
+                    class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
+                    <!-- Logos placeholders (SVG) -->
+                    <i data-lucide="infinity" class="w-12 h-12 text-primary"></i>
+                    <i data-lucide="hexagon" class="w-12 h-12 text-primary"></i>
+                    <i data-lucide="triangle" class="w-12 h-12 text-primary"></i>
+                    <i data-lucide="circle-dashed" class="w-12 h-12 text-primary"></i>
+                </div>
+            </div>
+
+            <div class="max-w-3xl mx-auto mt-24 reveal delay-100">
+                <i data-lucide="quote" class="w-8 h-8 text-accent/20 mx-auto mb-6"></i>
+                <blockquote class="text-2xl font-serif text-primary font-light italic leading-relaxed mb-8">
+                    "Orend no solo nos dio unas pautas para hablar mejor de nosotros mismos; extrajeron nuestra
+                    verdadera identidad y nos enseñaron a proyectarla con una elegancia y claridad que nos ha
+                    transformado institucionalmente."
+                </blockquote>
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 mb-4 overflow-hidden">
+                        <!-- Placeholder Profile -->
+                        <div class="w-full h-full bg-secondary"></div>
+                    </div>
+                    <cite class="not-italic font-medium text-primary text-sm">Elena Romero</cite>
+                    <span class="text-muted text-sm font-light">Directora de Comunicación Institucional</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-32 relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-4xl md:text-5xl font-medium text-primary mb-6">Iniciemos una conversación
+                </h2>
+                <p class="text-secondary font-light text-lg">Descubramos cómo el relato correcto puede cambiar el rumbo
+                    de tu organización.</p>
+            </div>
+
+            <div
+                class="grid grid-cols-1 md:grid-cols-5 gap-12 bg-surface p-8 md:p-12 rounded-3xl shadow-hover reveal delay-100 border border-primary/5">
+
+                <!-- Contact Info -->
+                <div class="md:col-span-2 space-y-8 flex flex-col justify-center">
+                    <div>
+                        <span class="block text-accent font-medium text-sm tracking-widest uppercase mb-1">Email</span>
+                        <a href="mailto:hola@orend.es"
+                            class="text-lg font-medium text-primary hover:text-accent transition-colors">hola@orend.es</a>
+                    </div>
+                    <div>
+                        <span
+                            class="block text-accent font-medium text-sm tracking-widest uppercase mb-1">LinkedIn</span>
+                        <a href="#"
+                            class="text-lg font-medium text-primary hover:text-accent transition-colors">/company/orend-consultancy</a>
+                    </div>
+                    <div>
+                        <span
+                            class="block text-accent font-medium text-sm tracking-widest uppercase mb-1">Oficina</span>
+                        <p class="text-secondary font-light">Madrid, España<br>Presencial & Remoto</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="md:col-span-3">
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="space-y-1">
+                                <label for="name" class="block text-sm font-medium text-primary">Nombre</label>
+                                <input type="text" id="name" required
+                                    class="w-full px-4 py-3 bg-background border border-primary/10 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-primary placeholder-muted"
+                                    placeholder="Tu nombre">
+                            </div>
+                            <div class="space-y-1">
+                                <label for="email" class="block text-sm font-medium text-primary">Email</label>
+                                <input type="email" id="email" required
+                                    class="w-full px-4 py-3 bg-background border border-primary/10 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-primary placeholder-muted"
+                                    placeholder="tucorreo@empresa.com">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label for="message" class="block text-sm font-medium text-primary">Mensaje</label>
+                            <textarea id="message" rows="4" required
+                                class="w-full px-4 py-3 bg-background border border-primary/10 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-primary placeholder-muted resize-none"
+                                placeholder="¿En qué podemos ayudarte?"></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-primary text-white py-4 rounded-xl text-sm font-semibold tracking-wide hover:bg-primary/90 transition-all cursor-pointer">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 border-t border-primary/5">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <span class="font-serif text-xl font-medium text-primary">OREND</span>
+            <p class="text-muted text-sm font-light text-center md:text-left">
+                &copy; <span id="year"></span> OREND Consultoría Estratégica. Todos los derechos reservados.
+            </p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-muted hover:text-primary transition-colors text-sm">Privacidad</a>
+                <a href="#" class="text-muted hover:text-primary transition-colors text-sm">Aviso Legal</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Current Year for Footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Scroll Reveal Animation (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
+        });
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const links = document.querySelectorAll('.mobile-link');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Form Submit Prevent Simple Feedback
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+
+            btn.textContent = 'Mensaje Enviado ✓';
+            btn.classList.add('bg-green-600', 'hover:bg-green-700');
+
+            e.target.reset();
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+            }, 3000);
+        });
+    </script>
+</body>
+
+</html>
